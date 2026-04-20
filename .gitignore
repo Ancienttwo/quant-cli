@@ -1,0 +1,65 @@
+# ===== Dot-Prefixed Directories =====
+.*/
+!.github/
+!.github/**
+
+# ===== Keep AI workflow visible in git =====
+!.ai/
+!.claude/
+.claude/.session-*
+.claude/.tool-call-count
+.claude/.trace.jsonl
+.claude/.context-pressure/
+.claude/settings.local.json
+apps/*/.claude/.session-*
+apps/*/.claude/.tool-call-count
+apps/*/.claude/.trace.jsonl
+apps/*/.claude/.context-pressure/
+
+# ===== Build Artifacts =====
+artifacts/
+dist/
+build/
+coverage/
+_ref/
+/data/
+*.tsbuildinfo
+
+# ===== Environment Variables =====
+.env
+.env.*
+!.env.example
+
+# ===== Dependencies =====
+node_modules/
+.pnpm-store/
+
+# ===== OS Metadata =====
+.DS_Store
+
+# ===== Logs & Debug =====
+*.log
+npm-debug.log*
+pnpm-debug.log*
+debug.log
+
+# ===== Package Archives =====
+*.tar.gz
+*.tgz
+*.zip
+
+# ===== Database =====
+*.sqlite
+*.db
+*.sql.gz
+
+# ===== Secrets & Keys =====
+*.pem
+*.key
+*.p12
+secrets/
+
+# ===== TON / Crypto Specific =====
+*.mnemonics
+*.seed
+.omx/

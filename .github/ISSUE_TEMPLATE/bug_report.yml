@@ -1,0 +1,34 @@
+name: Bug report
+description: Report a public CLI bug
+title: "[bug]: "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What is broken?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction
+      description: Exact commands, flags, or files needed to reproduce the problem.
+      placeholder: |
+        1. bun install --frozen-lockfile
+        2. tonquant ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: tonquant version
+      placeholder: 0.2.0

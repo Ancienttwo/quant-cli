@@ -1,0 +1,27 @@
+{
+  "name": "quant-cli-workspace",
+  "private": true,
+  "license": "MIT",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "bun run --filter tonquant build",
+    "typecheck": "tsc -b packages/core/tsconfig.json apps/cli/tsconfig.json apps/quant-backend/tsconfig.json",
+    "lint": "biome check .",
+    "test": "bun test --max-concurrency 1 packages/core/tests apps/cli/tests",
+    "test:coverage": "bun test --coverage --max-concurrency 1 packages/core/tests apps/cli/tests",
+    "check:boundary": "bun run scripts/check-quant-cli-boundary.ts",
+    "pack:smoke": "bun run --cwd apps/cli pack:smoke"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "latest",
+    "@types/bun": "latest",
+    "bun-types": "^1.3.11",
+    "typescript": "latest"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  }
+}

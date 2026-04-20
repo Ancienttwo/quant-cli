@@ -1,0 +1,25 @@
+name: Feature request
+description: Propose a public CLI improvement
+title: "[feature]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user or agent problem should the CLI solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe the public command, contract, or workflow you want.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope boundary
+      description: Explain why this belongs in the public CLI workspace and not in hosted platform services.

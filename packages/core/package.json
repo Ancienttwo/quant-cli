@@ -1,0 +1,18 @@
+{
+  "name": "@tonquant/core",
+  "version": "0.1.0",
+  "description": "Shared types, schemas, and services for the TON blockchain",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@ton/core": "latest",
+    "@ton/crypto": "latest",
+    "@ton/ton": "latest",
+    "zod": "^3.24"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}

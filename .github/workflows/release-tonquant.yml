@@ -1,0 +1,121 @@
+name: Release tonquant
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish tonquant to npm after verification
+        required: false
+        type: boolean
+        default: false
+      npm_tag:
+        description: npm dist-tag to publish with
+        required: false
+        type: string
+        default: latest
+  push:
+    tags:
+      - "tonquant-v*"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.10
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Boundary check
+        run: bun run check:boundary
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Test
+        run: bun run test
+
+      - name: Pack smoke
+        run: bun run --cwd apps/cli pack:smoke
+
+      - name: Pack tonquant tarball
+        working-directory: apps/cli
+        run: |
+          rm -rf dist-pack
+          mkdir -p dist-pack
+          npm pack --ignore-scripts --json --pack-destination dist-pack
+
+      - name: Upload packed artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tonquant-package
+          path: apps/cli/dist-pack/*.tgz
+
+  publish:
+    needs: verify
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || inputs.publish == true
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      NPM_TOKEN_PRESENT: ${{ secrets.NPM_TOKEN != '' }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.10
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Verify tag matches package version
+        if: github.event_name == 'push'
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./apps/cli/package.json').version")
+          TAG_VERSION="${GITHUB_REF_NAME#tonquant-v}"
+          test "$PACKAGE_VERSION" = "$TAG_VERSION"
+
+      - name: Build package
+        working-directory: apps/cli
+        run: bun run build
+
+      - name: Publish tonquant with npm token
+        if: env.NPM_TOKEN_PRESENT == 'true'
+        working-directory: apps/cli
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public --tag "${{ github.event.inputs.npm_tag || 'latest' }}"
+
+      - name: Publish tonquant with OIDC
+        if: env.NPM_TOKEN_PRESENT != 'true'
+        working-directory: apps/cli
+        run: npm publish --access public --tag "${{ github.event.inputs.npm_tag || 'latest' }}"

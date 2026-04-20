@@ -1,0 +1,17 @@
+{
+  "name": "@tonquant/quant-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run src/cli.ts"
+  },
+  "dependencies": {
+    "@tonquant/core": "workspace:*",
+    "yahoo-finance2": "^3.13.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}

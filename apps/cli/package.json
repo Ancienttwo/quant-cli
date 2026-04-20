@@ -1,0 +1,55 @@
+{
+  "name": "tonquant",
+  "version": "0.2.0",
+  "author": "ancienttwo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ancienttwo/quant-cli.git"
+  },
+  "devDependencies": {
+    "@tonquant/core": "workspace:*",
+    "@types/bun": "latest",
+    "chalk": "latest",
+    "cli-table3": "latest",
+    "commander": "^13",
+    "zod": "^3.24"
+  },
+  "bin": {
+    "tonquant": "dist/index.js"
+  },
+  "description": "AI-native multi-surface research CLI for public markets and TON liquidity",
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "files": [
+    "dist/index.js",
+    "dist/quant-backend.js",
+    "README.md"
+  ],
+  "homepage": "https://tonquant.com",
+  "keywords": [
+    "ton",
+    "defi",
+    "quant",
+    "trading",
+    "cli",
+    "ai-agent",
+    "backtest",
+    "stonfi",
+    "blockchain"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "build": "bun run scripts/build-package.ts",
+    "pack:smoke": "bun run scripts/smoke-pack.ts",
+    "prepack": "bun run build",
+    "test": "bun test tests/",
+    "test:coverage": "bun test --coverage tests/"
+  },
+  "type": "module"
+}

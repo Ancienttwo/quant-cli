@@ -1,0 +1,24 @@
+{
+  "name": "@tonquant/pi-autoresearch",
+  "version": "0.1.0",
+  "private": false,
+  "description": "PI-native TonQuant factor-mining layer on top of upstream pi-autoresearch.",
+  "license": "MIT",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "tonquant",
+    "autoresearch",
+    "factor-mining"
+  ],
+  "files": [
+    "README.md",
+    "skills",
+    "templates"
+  ],
+  "pi": {
+    "skills": [
+      "./skills"
+    ]
+  }
+}
